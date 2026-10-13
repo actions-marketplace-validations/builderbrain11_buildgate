@@ -23,7 +23,8 @@
     "build": "npm --prefix apps/web run build",
     "start": "npm --prefix apps/web run preview",
     "test:sandbox": "node --test packages/engine/test/sandbox-runner.test.js",
-    "benchmark:repos": "node packages/engine/test/external-repo-harness.js"
+    "benchmark:repos": "node packages/engine/test/external-repo-harness.js",
+    "publish:cli": "npm publish packages/engine --access public"
   },
   "keywords": [
     "verification",

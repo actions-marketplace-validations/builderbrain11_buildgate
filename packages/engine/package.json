@@ -1,14 +1,33 @@
 {
-  "name": "@buildgate/engine",
-  "version": "0.1.0",
-  "description": "Deterministic verification and regression engine for AI-built software, powered by legit.run",
+  "name": "legit.run",
+  "version": "1.0.0",
+  "description": "Deterministic verification and merge gate for AI-written software",
   "main": "src/index.js",
   "bin": {
-    "buildgate": "bin/buildgate.js",
     "legit.run": "bin/legit.run.js",
     "legit": "bin/legit.run.js",
+    "buildgate": "bin/buildgate.js",
     "verity": "bin/verity.js"
   },
-  "keywords": ["buildgate", "legit.run", "verification", "ai", "security", "engine"],
-  "license": "Apache-2.0"
+  "files": [
+    "bin",
+    "src"
+  ],
+  "keywords": [
+    "ai",
+    "cursor",
+    "claude",
+    "verification",
+    "testing",
+    "merge-gate",
+    "security",
+    "legit.run",
+    "buildgate"
+  ],
+  "author": "builderbrain11",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/builderbrain11/buildgate.git"
+  }
 }
