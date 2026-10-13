@@ -149,6 +149,7 @@ async function runIsolatedJob(scriptPath, args = [], options = {}) {
   const image = options.image || DEFAULT_IMAGE;
   if (!/^[a-zA-Z0-9][a-zA-Z0-9._:/-]{0,180}$/.test(image)) throw new Error('Invalid sandbox image name.');
   const outputPath = fs.mkdtempSync(path.join(os.tmpdir(), 'buildgate-output-'));
+  try { fs.chmodSync(outputPath, 0o777); } catch (_) {}
   try {
     const dockerArgs = buildDockerArgs({
       projectPath, scriptRelative: path.relative(projectPath, scriptAbsolute).split(path.sep).join('/'),

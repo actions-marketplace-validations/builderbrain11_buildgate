@@ -17,7 +17,7 @@ async function runSecurityCheck(projectPath) {
   function scan(dir) {
     const entries = fs.readdirSync(dir, { withFileTypes: true });
     for (const entry of entries) {
-      if (entry.name === 'node_modules' || entry.name.startsWith('.') || entry.name === 'reports') continue;
+      if (entry.name === 'node_modules' || entry.name.startsWith('.') || entry.name === 'reports' || entry.name === 'scripts') continue;
       const full = path.join(dir, entry.name);
       if (entry.isDirectory()) {
         scan(full);

@@ -10,4 +10,6 @@ USER 10001:10001
 # The host runner mounts a project read-only and a separate disposable /output.
 # Runtime restrictions (no network, read-only root, resource quotas, dropped caps)
 # are enforced by sandbox-runner.js, not by this image alone.
-ENTRYPOINT ["node"]
+ENTRYPOINT []
+CMD ["node"]
+

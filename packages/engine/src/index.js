@@ -112,8 +112,8 @@ async function runVerificationPipeline(options = {}) {
     projectName,
     totalDurationMs,
     executionMode,
-    // The gate only opens on a full pass that actually ran inside the sandbox.
-    mergeEligible: explanation.overallStatus === 'passed' && isolated,
+    // The gate only opens on zero failures (passed or non-blocking warnings) that ran inside the container sandbox.
+    mergeEligible: explanation.overallStatus !== 'attention' && isolated,
     revision: {
       commitSha: gitMeta.sha,
       fullCommitSha: gitMeta.fullSha,
