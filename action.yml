@@ -1,6 +1,6 @@
-name: 'Buildgate Deterministic Verification Gate'
-description: 'The commit-bound verification gate for AI-written software, powered by legit.run.'
-author: 'Buildgate Team'
+name: 'Buildgate'
+description: 'The merge gate for AI-written code: runs flows in an isolated sandbox with signed evidence.'
+author: 'builderbrain11'
 branding:
   icon: 'shield'
   color: 'blue'
@@ -36,6 +36,16 @@ outputs:
 runs:
   using: 'composite'
   steps:
+    - name: Ensure Buildgate Worker Container Image
+      shell: bash
+      run: |
+        if [ "${{ inputs.strict }}" = "true" ] && command -v docker >/dev/null 2>&1; then
+          if ! docker image inspect buildgate-worker:local >/dev/null 2>&1; then
+            echo "🐳 Building buildgate-worker:local sandbox container..."
+            docker build -t buildgate-worker:local -f "${{ github.action_path }}/infra/worker-sandbox/Dockerfile" "${{ github.action_path }}"
+          fi
+        fi
+
     - name: Run legit.run Verification Pipeline
       id: run-gate
       shell: bash
@@ -46,7 +56,7 @@ runs:
         fi
 
         echo "🛡️  Running Buildgate Deterministic Gate (legit.run)..."
-        node packages/engine/bin/buildgate.js --project "${{ inputs.project-path }}" $STRICT_FLAG
+        node "${{ github.action_path }}/packages/engine/bin/buildgate.js" --project "${{ inputs.project-path }}" $STRICT_FLAG
 
         REPORT_PATH="${{ inputs.project-path }}/reports/buildgate-report.json"
         if [ ! -f "$REPORT_PATH" ]; then
