@@ -1,4 +1,4 @@
-name: 'Buildgate'
+name: 'Buildgate Verification Gate'
 description: 'The merge gate for AI-written code: runs flows in an isolated sandbox with signed evidence.'
 author: 'builderbrain11'
 branding:
