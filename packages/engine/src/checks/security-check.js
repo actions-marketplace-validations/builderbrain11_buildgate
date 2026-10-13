@@ -55,15 +55,15 @@ async function runSecurityCheck(projectPath) {
           });
         }
 
-        // 3. Database Invariant & Mutation Omission Checks
-        if (content.includes('acknowledged_without_db_update') || 
-           (rel.includes('webhook') && content.includes('payment') && content.includes('// updateOrder'))) {
+        // 3. Database Invariant & Mutation Omission Checks (e.g. commented-out DB writes in event/webhook handlers)
+        const unpersistedEventPattern = /(?:\/\/\s*(?:await\s+)?(?:db\.|prisma\.|update|save|commit|insert)\w*\s*\(|acknowledged_without_db_update)/i;
+        if ((rel.includes('webhook') || rel.includes('handler') || rel.includes('api/')) && unpersistedEventPattern.test(content)) {
           findings.push({
             category: 'logic_flaw',
             severity: 'medium',
             confidence: 'high',
             title: `Unpersisted State Mutation in ${rel}`,
-            evidence: 'Webhook acknowledges external event without committing database mutation',
+            evidence: 'Webhook/event handler acknowledges external event while state persistence mutation is commented out or missing',
             file: rel,
             recommendation: 'Ensure database state transition is committed before returning success response.'
           });

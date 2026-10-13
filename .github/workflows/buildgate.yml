@@ -33,7 +33,7 @@ jobs:
       - name: Run legit.run verification gate (--strict)
         id: buildgate_run
         run: |
-          node packages/engine/bin/verity.js --project fixtures/my-saas-app --strict
+          node packages/engine/bin/buildgate.js --project fixtures/my-saas-app --strict
 
       - name: Upload Immutable Evidence Artifact
         if: always()
@@ -41,8 +41,8 @@ jobs:
         with:
           name: buildgate-evidence
           path: |
-            fixtures/my-saas-app/reports/verity-report.json
-            fixtures/my-saas-app/reports/verity-report.md
+            fixtures/my-saas-app/reports/buildgate-report.json
+            fixtures/my-saas-app/reports/buildgate-report.md
             fixtures/my-saas-app/reports/evidence-*.json
 
       - name: Comment PR with Evidence Summary
@@ -51,7 +51,7 @@ jobs:
         with:
           script: |
             const fs = require('fs');
-            const mdPath = 'fixtures/my-saas-app/reports/verity-report.md';
+            const mdPath = 'fixtures/my-saas-app/reports/buildgate-report.md';
             if (fs.existsSync(mdPath)) {
               const reportMd = fs.readFileSync(mdPath, 'utf8');
               const comment = `### 🛡️ Buildgate Verification Evidence\n\n` + reportMd;
