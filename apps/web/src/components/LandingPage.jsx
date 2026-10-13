@@ -36,11 +36,11 @@ export default function LandingPage({ onLaunchDemo }) {
       {/* 1. TOP NAVBAR */}
       <nav className="max-w-7xl mx-auto px-6 py-5 flex items-center justify-between relative z-20 border-b border-white/[0.05]">
         <div className="flex items-center gap-3">
-          <BuildgateLogo className="w-9 h-9 drop-shadow-[0_0_16px_rgba(245,158,11,0.3)]" />
+          <LegitRunLogo className="w-9 h-9 drop-shadow-[0_0_16px_rgba(56,189,248,0.4)]" />
           <div className="flex flex-col">
-            <span className="text-xl font-bold tracking-tight text-white font-sans lowercase">buildgate</span>
-            <span className="text-[9px] font-mono tracking-[0.18em] uppercase text-amber-200/70 font-semibold -mt-0.5">
-              The Gate for Systems
+            <span className="text-xl font-black tracking-tight text-white font-mono lowercase">legit.run</span>
+            <span className="text-[9px] font-mono tracking-[0.18em] uppercase text-amber-200/80 font-semibold -mt-0.5">
+              by buildgate
             </span>
           </div>
         </div>
@@ -75,17 +75,18 @@ export default function LandingPage({ onLaunchDemo }) {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
           {/* Left Column */}
           <div className="lg:col-span-7 space-y-7">
-            <div className="text-[11px] font-mono tracking-[0.25em] text-amber-200/80 uppercase font-semibold">
-              DETERMINISTIC VERIFICATION · CONTAINER SANDBOX · PR MERGE GATE
+            <div className="text-[11px] font-mono tracking-[0.25em] text-amber-200/80 uppercase font-semibold flex items-center gap-2 flex-wrap">
+              <span className="px-2 py-0.5 rounded bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">npx legit.run</span>
+              <span>DETERMINISTIC VERIFICATION · CONTAINER SANDBOX · PR MERGE GATE</span>
             </div>
 
             <h1 className="text-4xl sm:text-6xl lg:text-7xl font-bold text-white tracking-tight leading-[1.05]">
-              The Merge Gate for<br />
-              <span className="text-amber-200/95 italic font-serif font-normal">AI-written code.</span>
+              Prove your AI code is <span className="text-amber-300">legit</span><br />
+              <span className="text-amber-200/95 italic font-serif font-normal">before you merge.</span>
             </h1>
 
             <p className="text-base sm:text-lg text-slate-300 leading-relaxed max-w-xl font-normal">
-              Every AI-generated change runs your critical user flows in an isolated container sandbox and produces tamper-proof evidence bound to the commit before it can merge.
+              <strong>legit.run</strong> runs your critical user flows in an isolated container sandbox on every AI change. Produces commit-bound, tamper-proof proof for Buildgate PR merge gates.
             </p>
 
             {/* Trinity Cards Row (buildgate / buildvibe / legit.run) */}

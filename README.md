@@ -1,8 +1,9 @@
-# Buildgate: The Merge Gate for AI-Written Code
+# legit.run: The Merge Gate for AI-Written Code
+*(Powered by the Buildgate verification engine)*
 
 > **Every AI-generated change runs your critical user flows in an isolated sandbox and produces signed evidence bound to the commit before it can merge.**
 
-[![GitHub Action](https://img.shields.io/badge/GitHub_Action-uses%3A%20builderbrain11%2Fbuildgate%40main-2ea44f?style=flat-square&logo=github)](https://github.com/builderbrain11/buildgate)
+[![GitHub Action](https://img.shields.io/badge/GitHub_Action-uses%3A%20builderbrain11%2Fbuildgate%40v1-2ea44f?style=flat-square&logo=github)](https://github.com/builderbrain11/buildgate)
 [![CLI](https://img.shields.io/badge/CLI-npx%20legit.run-38bdf8?style=flat-square&logo=terminal)](https://github.com/builderbrain11/buildgate)
 [![License](https://img.shields.io/badge/License-Apache_2.0-blue?style=flat-square)](LICENSE)
 [![Benchmark Precision](https://img.shields.io/badge/Benchmark_Precision-100%25-emerald?style=flat-square)](packages/engine/test/external-repo-harness.js)
@@ -21,7 +22,7 @@ Then production breaks because:
 - A live secret key was hardcoded into a client bundle.
 
 **AI code reviewers give opinions. Linters check syntax.**  
-**Buildgate provides deterministic proof before code can merge.**
+**legit.run provides deterministic proof before code can merge.**
 
 ```
        Developer / AI Agent
