@@ -1,0 +1,338 @@
+{
+  "scanId": "#4851",
+  "timestamp": "2026-10-13T19:46:11.726Z",
+  "projectPath": "D:\\Darpan\\fixtures\\my-saas-app",
+  "projectName": "my-saas-app",
+  "totalDurationMs": 427,
+  "revision": {
+    "commitSha": "fa117cc",
+    "fullCommitSha": "fa117cc2ce20c71008816475cdf51f3ba4e75d85",
+    "branch": "master",
+    "isDirty": true,
+    "workerMode": "host-development-fallback",
+    "isolated": true
+  },
+  "changeAnalysis": {
+    "commit": {
+      "sha": "fa117cc",
+      "fullSha": "fa117cc2ce20c71008816475cdf51f3ba4e75d85",
+      "branch": "master",
+      "isDirty": true,
+      "author": "buildgate-sentinel",
+      "title": "Modified 36 local file(s)",
+      "timestamp": "2026-10-13T19:46:11.492Z"
+    },
+    "whatChanged": [
+      {
+        "item": "Added /api/webhooks/stripe endpoint",
+        "type": "endpoint",
+        "risk": "high"
+      },
+      {
+        "item": "Updated order status logic",
+        "type": "business_logic",
+        "risk": "high"
+      },
+      {
+        "item": "Modified database schema (orders)",
+        "type": "schema",
+        "risk": "medium"
+      },
+      {
+        "item": "Added Stripe dependency",
+        "type": "dependency",
+        "risk": "low"
+      },
+      {
+        "item": "Changed environment variables",
+        "type": "config",
+        "risk": "medium"
+      }
+    ],
+    "affectedComponents": [
+      {
+        "name": "Stripe Webhook Gateway",
+        "path": "src/api/webhooks/stripe.js",
+        "layer": "API Endpoint"
+      },
+      {
+        "name": "Order Persistence Service",
+        "path": "src/services/order.js",
+        "layer": "Application Logic"
+      },
+      {
+        "name": "Payment Flow Critical Journey",
+        "path": "tests/journeys/payment-flow.journey.js",
+        "layer": "Synthetic Tests"
+      },
+      {
+        "name": "Environment Configuration",
+        "path": "src/config/env.js",
+        "layer": "Secrets & Config"
+      }
+    ],
+    "riskLevel": "High Risk",
+    "riskReason": "Touches financial webhook endpoints, order state transitions, and external third-party payment callbacks.",
+    "isBrokenWebhook": false
+  },
+  "results": [
+    {
+      "id": "check_build_type",
+      "name": "Build & Type Check",
+      "category": "build",
+      "status": "passed",
+      "durationMs": 5,
+      "summary": "Successfully compiled and verified syntax across 19 project files.",
+      "errors": [],
+      "filesCount": 19
+    },
+    {
+      "id": "check_unit_tests",
+      "name": "Unit Tests",
+      "category": "tests",
+      "status": "passed",
+      "durationMs": 225,
+      "summary": "5/5 unit tests passed in an isolated Docker worker.",
+      "totalTests": 5,
+      "passedCount": 5,
+      "failedCount": 0,
+      "tests": [
+        {
+          "name": "Order Calculation: Multi-item subtotal and tax",
+          "passed": true
+        },
+        {
+          "name": "Order Calculation: Discount code reduction",
+          "passed": true
+        },
+        {
+          "name": "Order Lifecycle: Record creation in pending state",
+          "passed": true
+        },
+        {
+          "name": "Webhook Security: Signature verification rejection",
+          "passed": true
+        },
+        {
+          "name": "Webhook Handler: Transition order from pending to paid",
+          "passed": true
+        }
+      ],
+      "isolatedExecution": true,
+      "isolation": "host-development-fallback",
+      "suiteResults": {
+        "unitTests": [
+          {
+            "name": "Order Calculation: Multi-item subtotal and tax",
+            "passed": true
+          },
+          {
+            "name": "Order Calculation: Discount code reduction",
+            "passed": true
+          },
+          {
+            "name": "Order Lifecycle: Record creation in pending state",
+            "passed": true
+          },
+          {
+            "name": "Webhook Security: Signature verification rejection",
+            "passed": true
+          },
+          {
+            "name": "Webhook Handler: Transition order from pending to paid",
+            "passed": true
+          }
+        ],
+        "journeys": [
+          {
+            "journey": "User Login",
+            "totalTests": 2,
+            "passedCount": 2,
+            "failedCount": 0,
+            "status": "passed",
+            "assertions": [
+              {
+                "step": "Step 1: Authenticate credentials and mint session token",
+                "passed": true
+              },
+              {
+                "step": "Step 2: Validate bearer token on protected endpoint",
+                "passed": true
+              }
+            ]
+          },
+          {
+            "journey": "Create Order",
+            "totalTests": 2,
+            "passedCount": 2,
+            "failedCount": 0,
+            "status": "passed",
+            "assertions": [
+              {
+                "step": "Step 1: Calculate discounts and total order cost",
+                "passed": true
+              },
+              {
+                "step": "Step 2: Commit pending order to database with integrity check",
+                "passed": true
+              }
+            ]
+          },
+          {
+            "journey": "Payment Flow",
+            "totalTests": 3,
+            "passedCount": 3,
+            "failedCount": 0,
+            "status": "passed",
+            "assertions": [
+              {
+                "step": "Step 1: Initialize payment session and associate with order",
+                "passed": true
+              },
+              {
+                "step": "Step 2: Authenticate and ingest Stripe webhook signature",
+                "passed": true
+              },
+              {
+                "step": "Step 3: Transition order to paid state and link transaction ID",
+                "passed": true
+              }
+            ]
+          },
+          {
+            "journey": "View Orders",
+            "totalTests": 2,
+            "passedCount": 2,
+            "failedCount": 0,
+            "status": "passed",
+            "assertions": [
+              {
+                "step": "Step 1: Retrieve customer order collection from database",
+                "passed": true
+              },
+              {
+                "step": "Step 2: Enforce tenant isolation on order records",
+                "passed": true
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "check_critical_journeys",
+      "name": "Critical Journey Tests",
+      "category": "journeys",
+      "status": "passed",
+      "durationMs": 0,
+      "summary": "All 4 critical user journeys passed in an isolated Docker worker.",
+      "failingJourneys": [],
+      "journeys": [
+        {
+          "journey": "User Login",
+          "totalTests": 2,
+          "passedCount": 2,
+          "failedCount": 0,
+          "status": "passed",
+          "assertions": [
+            {
+              "step": "Step 1: Authenticate credentials and mint session token",
+              "passed": true
+            },
+            {
+              "step": "Step 2: Validate bearer token on protected endpoint",
+              "passed": true
+            }
+          ]
+        },
+        {
+          "journey": "Create Order",
+          "totalTests": 2,
+          "passedCount": 2,
+          "failedCount": 0,
+          "status": "passed",
+          "assertions": [
+            {
+              "step": "Step 1: Calculate discounts and total order cost",
+              "passed": true
+            },
+            {
+              "step": "Step 2: Commit pending order to database with integrity check",
+              "passed": true
+            }
+          ]
+        },
+        {
+          "journey": "Payment Flow",
+          "totalTests": 3,
+          "passedCount": 3,
+          "failedCount": 0,
+          "status": "passed",
+          "assertions": [
+            {
+              "step": "Step 1: Initialize payment session and associate with order",
+              "passed": true
+            },
+            {
+              "step": "Step 2: Authenticate and ingest Stripe webhook signature",
+              "passed": true
+            },
+            {
+              "step": "Step 3: Transition order to paid state and link transaction ID",
+              "passed": true
+            }
+          ]
+        },
+        {
+          "journey": "View Orders",
+          "totalTests": 2,
+          "passedCount": 2,
+          "failedCount": 0,
+          "status": "passed",
+          "assertions": [
+            {
+              "step": "Step 1: Retrieve customer order collection from database",
+              "passed": true
+            },
+            {
+              "step": "Step 2: Enforce tenant isolation on order records",
+              "passed": true
+            }
+          ]
+        }
+      ],
+      "isolatedExecution": true,
+      "isolation": "host-development-fallback"
+    },
+    {
+      "id": "check_security",
+      "name": "Security & Secret Scan",
+      "category": "security",
+      "status": "passed",
+      "durationMs": 1,
+      "summary": "No security vulnerabilities or secret exposures detected.",
+      "findings": [],
+      "secretStatus": "passed"
+    },
+    {
+      "id": "check_dependency_audit",
+      "name": "Dependency Audit",
+      "category": "dependencies",
+      "status": "passed",
+      "durationMs": 0,
+      "summary": "Audited 1 package dependencies. No known vulnerabilities detected.",
+      "dependenciesCount": 1,
+      "issues": []
+    }
+  ],
+  "explanation": {
+    "overallStatus": "passed",
+    "overallHeadline": "Verified: All critical behavior preserved",
+    "explanation": "Every critical user journey (Login, Create Order, Payment Flow, View Orders) and all unit tests passed. No secrets or security regressions detected.",
+    "recommendations": [],
+    "failingCount": 0,
+    "warningCount": 0,
+    "passedCount": 5,
+    "totalCount": 5
+  }
+}

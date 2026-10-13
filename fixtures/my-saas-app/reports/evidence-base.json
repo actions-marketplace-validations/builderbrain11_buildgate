@@ -1,0 +1,157 @@
+{
+  "eventId": "event-1-base",
+  "eventName": "Event 1: Sourced Midway Build Baseline",
+  "timestamp": "2026-10-13T19:39:27.856Z",
+  "scanId": "#4513",
+  "commitSha": "fa117cc",
+  "status": "attention",
+  "headline": "Changes need attention",
+  "verification": {
+    "scanId": "#4513",
+    "timestamp": "2026-10-13T19:39:27.855Z",
+    "projectPath": "D:\\Darpan\\fixtures\\my-saas-app",
+    "projectName": "my-saas-app",
+    "totalDurationMs": 341,
+    "revision": {
+      "commitSha": "fa117cc",
+      "fullCommitSha": "fa117cc2ce20c71008816475cdf51f3ba4e75d85",
+      "branch": "master",
+      "isDirty": true,
+      "workerMode": "isolated-docker",
+      "isolated": false
+    },
+    "changeAnalysis": {
+      "commit": {
+        "sha": "fa117cc",
+        "fullSha": "fa117cc2ce20c71008816475cdf51f3ba4e75d85",
+        "branch": "master",
+        "isDirty": true,
+        "author": "buildgate-sentinel",
+        "title": "Modified 33 local file(s)",
+        "timestamp": "2026-10-13T19:39:27.683Z"
+      },
+      "whatChanged": [
+        {
+          "item": "Added /api/webhooks/stripe endpoint",
+          "type": "endpoint",
+          "risk": "high"
+        },
+        {
+          "item": "Updated order status logic",
+          "type": "business_logic",
+          "risk": "high"
+        },
+        {
+          "item": "Modified database schema (orders)",
+          "type": "schema",
+          "risk": "medium"
+        },
+        {
+          "item": "Added Stripe dependency",
+          "type": "dependency",
+          "risk": "low"
+        },
+        {
+          "item": "Changed environment variables",
+          "type": "config",
+          "risk": "medium"
+        }
+      ],
+      "affectedComponents": [
+        {
+          "name": "Stripe Webhook Gateway",
+          "path": "src/api/webhooks/stripe.js",
+          "layer": "API Endpoint"
+        },
+        {
+          "name": "Order Persistence Service",
+          "path": "src/services/order.js",
+          "layer": "Application Logic"
+        },
+        {
+          "name": "Payment Flow Critical Journey",
+          "path": "tests/journeys/payment-flow.journey.js",
+          "layer": "Synthetic Tests"
+        },
+        {
+          "name": "Environment Configuration",
+          "path": "src/config/env.js",
+          "layer": "Secrets & Config"
+        }
+      ],
+      "riskLevel": "High Risk",
+      "riskReason": "Touches financial webhook endpoints, order state transitions, and external third-party payment callbacks.",
+      "isBrokenWebhook": false
+    },
+    "results": [
+      {
+        "id": "check_build_type",
+        "name": "Build & Type Check",
+        "category": "build",
+        "status": "passed",
+        "durationMs": 4,
+        "summary": "Successfully compiled and verified syntax across 18 project files.",
+        "errors": [],
+        "filesCount": 18
+      },
+      {
+        "id": "check_unit_tests",
+        "name": "Unit Tests",
+        "category": "tests",
+        "status": "failed",
+        "durationMs": 164,
+        "summary": "Tests were not executed because isolated worker execution failed. No host fallback was attempted.",
+        "totalTests": 0,
+        "passedCount": 0,
+        "failedCount": 1,
+        "tests": [],
+        "isolatedExecution": false,
+        "executionError": "Docker daemon is not running. Please start Docker Desktop or the Docker service. No host execution was attempted."
+      },
+      {
+        "id": "check_critical_journeys",
+        "name": "Critical Journey Tests",
+        "category": "journeys",
+        "status": "failed",
+        "durationMs": 0,
+        "summary": "Critical journeys were not executed because isolated test results were unavailable.",
+        "failingJourneys": [
+          "All journeys unavailable"
+        ],
+        "journeys": [],
+        "isolatedExecution": false,
+        "executionError": "Docker daemon is not running. Please start Docker Desktop or the Docker service. No host execution was attempted."
+      },
+      {
+        "id": "check_security",
+        "name": "Security & Secret Scan",
+        "category": "security",
+        "status": "passed",
+        "durationMs": 2,
+        "summary": "No security vulnerabilities or secret exposures detected.",
+        "findings": [],
+        "secretStatus": "passed"
+      },
+      {
+        "id": "check_dependency_audit",
+        "name": "Dependency Audit",
+        "category": "dependencies",
+        "status": "passed",
+        "durationMs": 0,
+        "summary": "Audited 1 package dependencies. No known vulnerabilities detected.",
+        "dependenciesCount": 1,
+        "issues": []
+      }
+    ],
+    "explanation": {
+      "overallStatus": "attention",
+      "overallHeadline": "Changes need attention",
+      "explanation": "The verification pipeline identified 2 failed check(s). Review the detailed logs below before merging.",
+      "recommendations": [],
+      "failingCount": 2,
+      "warningCount": 0,
+      "passedCount": 3,
+      "totalCount": 5
+    }
+  }
+}

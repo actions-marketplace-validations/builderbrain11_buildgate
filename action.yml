@@ -1,0 +1,78 @@
+name: 'Buildgate Deterministic Verification Gate'
+description: 'The commit-bound verification gate for AI-written software, powered by legit.run.'
+author: 'Buildgate Team'
+branding:
+  icon: 'shield'
+  color: 'blue'
+
+inputs:
+  project-path:
+    description: 'Target directory of the project to verify'
+    required: false
+    default: '.'
+  strict:
+    description: 'Enforce container isolation; exits with code 1 if not container-verified'
+    required: false
+    default: 'true'
+  upload-evidence:
+    description: 'Upload generated buildgate-report.json and markdown artifacts'
+    required: false
+    default: 'true'
+
+outputs:
+  merge-eligible:
+    description: 'Boolean flag indicating if changes are safe and container-verified'
+    value: ${{ steps.run-gate.outputs.merge_eligible }}
+  overall-status:
+    description: 'Verification headline status (passed | attention)'
+    value: ${{ steps.run-gate.outputs.overall_status }}
+  passed-checks:
+    description: 'Number of passing verification checks'
+    value: ${{ steps.run-gate.outputs.passed_checks }}
+  total-checks:
+    description: 'Total number of verification checks evaluated'
+    value: ${{ steps.run-gate.outputs.total_checks }}
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Run legit.run Verification Pipeline
+      id: run-gate
+      shell: bash
+      run: |
+        STRICT_FLAG=""
+        if [ "${{ inputs.strict }}" = "true" ]; then
+          STRICT_FLAG="--strict"
+        fi
+
+        echo "🛡️  Running Buildgate Deterministic Gate (legit.run)..."
+        node packages/engine/bin/buildgate.js --project "${{ inputs.project-path }}" $STRICT_FLAG
+
+        REPORT_PATH="${{ inputs.project-path }}/reports/buildgate-report.json"
+        if [ ! -f "$REPORT_PATH" ]; then
+          REPORT_PATH="${{ inputs.project-path }}/reports/verity-report.json"
+        fi
+
+        if [ -f "$REPORT_PATH" ]; then
+          MERGE_ELIGIBLE=$(node -e "const r = require('$REPORT_PATH'); console.log(r.mergeEligible);")
+          STATUS=$(node -e "const r = require('$REPORT_PATH'); console.log(r.explanation?.overallStatus || 'unknown');")
+          PASSED=$(node -e "const r = require('$REPORT_PATH'); console.log(r.explanation?.passedCount || 0);")
+          TOTAL=$(node -e "const r = require('$REPORT_PATH'); console.log(r.results?.length || 0);")
+          
+          echo "merge_eligible=$MERGE_ELIGIBLE" >> $GITHUB_OUTPUT
+          echo "overall_status=$STATUS" >> $GITHUB_OUTPUT
+          echo "passed_checks=$PASSED" >> $GITHUB_OUTPUT
+          echo "total_checks=$TOTAL" >> $GITHUB_OUTPUT
+
+          # Generate GitHub Actions Job Summary
+          if [ -n "$GITHUB_STEP_SUMMARY" ]; then
+            MD_PATH="${{ inputs.project-path }}/reports/buildgate-report.md"
+            if [ -f "$MD_PATH" ]; then
+              cat "$MD_PATH" >> "$GITHUB_STEP_SUMMARY"
+            fi
+          fi
+        else
+          echo "⚠️  No report artifact was generated."
+          echo "merge_eligible=false" >> $GITHUB_OUTPUT
+          echo "overall_status=failed" >> $GITHUB_OUTPUT
+        fi

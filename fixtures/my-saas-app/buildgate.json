@@ -1,0 +1,70 @@
+{
+  "$schema": "buildgate.config.v1",
+  "system": "my-saas-app",
+  "vision": "Ecommerce backend where payments can never mark an order paid without a verified Stripe signature.",
+  "sourceRoots": ["src"],
+  "blocks": [
+    {
+      "id": "config-env",
+      "name": "Environment Config",
+      "layer": "Configuration",
+      "paths": ["src/config/env.js"],
+      "dependsOn": [],
+      "verifiedBy": []
+    },
+    {
+      "id": "auth-session",
+      "name": "Session & Auth",
+      "layer": "Security & Access",
+      "paths": ["src/auth/session.js"],
+      "dependsOn": ["config-env"],
+      "verifiedBy": ["journey:User Login"]
+    },
+    {
+      "id": "order-service",
+      "name": "Order Service",
+      "layer": "Business Logic",
+      "paths": ["src/services/order.js"],
+      "dependsOn": [],
+      "verifiedBy": ["unit:Order Calculation", "unit:Order Lifecycle", "journey:Create Order", "journey:View Orders"]
+    },
+    {
+      "id": "stripe-webhook",
+      "name": "Stripe Webhook",
+      "layer": "Payment Ingress",
+      "paths": ["src/api/webhooks/stripe.js"],
+      "dependsOn": ["order-service", "config-env"],
+      "verifiedBy": ["unit:Webhook Security", "unit:Webhook Handler", "journey:Payment Flow", "security"]
+    }
+  ],
+  "milestones": [
+    {
+      "id": "m1-auth",
+      "title": "Auth boundary holds",
+      "layer": "Security & Access",
+      "description": "Login journey passes against the real session module.",
+      "blocks": ["auth-session"]
+    },
+    {
+      "id": "m2-orders",
+      "title": "Order core is correct",
+      "layer": "Business Logic",
+      "description": "Pricing, discounts and lifecycle unit tests plus create/view order journeys pass.",
+      "blocks": ["order-service"]
+    },
+    {
+      "id": "m3-payments",
+      "title": "Payments are signature-guarded",
+      "layer": "Payment Ingress",
+      "description": "Webhook rejects unsigned events, persists paid status, and the security scan is clean.",
+      "blocks": ["stripe-webhook"]
+    },
+    {
+      "id": "m4-config",
+      "title": "Configuration is covered",
+      "layer": "Configuration",
+      "description": "Environment config has at least one check that exercises it. Currently uncovered on purpose, so this milestone stays open until a test exists.",
+      "blocks": ["config-env"]
+    }
+  ]
+}

@@ -1,0 +1,64 @@
+name: Buildgate Verification Gate
+
+on:
+  pull_request:
+    branches: [main, master]
+  push:
+    branches: [main, master]
+
+jobs:
+  verify:
+    name: legit.run Container Verification
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build isolated worker container
+        run: docker build -t buildgate-worker:local -f infra/worker-sandbox/Dockerfile .
+
+      - name: Run legit.run verification gate (--strict)
+        id: buildgate_run
+        run: |
+          node packages/engine/bin/verity.js --project fixtures/my-saas-app --strict
+
+      - name: Upload Immutable Evidence Artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: buildgate-evidence
+          path: |
+            fixtures/my-saas-app/reports/verity-report.json
+            fixtures/my-saas-app/reports/verity-report.md
+            fixtures/my-saas-app/reports/evidence-*.json
+
+      - name: Comment PR with Evidence Summary
+        if: github.event_name == 'pull_request' && always()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const mdPath = 'fixtures/my-saas-app/reports/verity-report.md';
+            if (fs.existsSync(mdPath)) {
+              const reportMd = fs.readFileSync(mdPath, 'utf8');
+              const comment = `### 🛡️ Buildgate Verification Evidence\n\n` + reportMd;
+              github.rest.issues.createComment({
+                issue_number: context.issue.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                body: comment
+              });
+            }

@@ -1,0 +1,39 @@
+{
+  "name": "buildgate",
+  "version": "0.1.0",
+  "description": "The trust and verification gate for AI-built software",
+  "private": true,
+  "workspaces": [
+    "packages/*",
+    "fixtures/*",
+    "apps/*",
+    "services/*"
+  ],
+  "scripts": {
+    "api": "node services/api/server.js",
+    "verify": "node packages/engine/bin/buildgate.js --project fixtures/my-saas-app",
+    "buildgate": "node packages/engine/bin/buildgate.js",
+    "legit": "node packages/engine/bin/legit.run.js",
+    "remediate": "node -e \"require('./packages/engine/src/remediation/patch-engine').proposeAndVerifyFix()\"",
+    "webhook:test": "node packages/engine/src/github/test-webhook.js",
+    "demo:break": "node fixtures/my-saas-app/scripts/break.js",
+    "demo:restore": "node fixtures/my-saas-app/scripts/restore.js",
+    "test:fixture": "node fixtures/my-saas-app/tests/run-tests.js",
+    "dev": "npm --prefix apps/web run dev",
+    "build": "npm --prefix apps/web run build",
+    "start": "npm --prefix apps/web run preview",
+    "test:sandbox": "node --test packages/engine/test/sandbox-runner.test.js",
+    "benchmark:repos": "node packages/engine/test/external-repo-harness.js"
+  },
+  "keywords": [
+    "verification",
+    "ai-software",
+    "vibecoding",
+    "regression-testing",
+    "security",
+    "buildgate",
+    "legit.run"
+  ],
+  "author": "Buildgate Team",
+  "license": "Apache-2.0"
+}

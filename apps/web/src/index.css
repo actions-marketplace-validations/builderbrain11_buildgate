@@ -1,0 +1,139 @@
+@import "tailwindcss";
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #080B0F;
+  overflow-x: hidden;
+}
+
+/* Custom Scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #080B0F;
+}
+::-webkit-scrollbar-thumb {
+  background: #1e293b;
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #38bdf8;
+}
+
+/* Organic Tech Refractive Glass Panels */
+.organic-glass {
+  background: linear-gradient(135deg, rgba(13, 20, 38, 0.72) 0%, rgba(9, 14, 27, 0.85) 100%);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  box-shadow: 
+    0 10px 30px -10px rgba(0, 0, 0, 0.5),
+    inset 0 1px 1px 0 rgba(255, 255, 255, 0.08),
+    inset 0 -1px 1px 0 rgba(0, 0, 0, 0.3);
+}
+
+.organic-glass:hover {
+  border-color: rgba(56, 189, 248, 0.25);
+  box-shadow: 
+    0 12px 35px -8px rgba(0, 0, 0, 0.6),
+    0 0 20px -5px rgba(56, 189, 248, 0.15),
+    inset 0 1px 1px 0 rgba(255, 255, 255, 0.12);
+}
+
+.organic-glass-card {
+  background: linear-gradient(180deg, rgba(15, 23, 42, 0.6) 0%, rgba(8, 12, 22, 0.8) 100%);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  box-shadow: 
+    0 8px 24px -6px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.06);
+}
+
+/* Bioluminescent Ambient Glows */
+.bio-glow-cyan {
+  box-shadow: 0 0 30px -5px rgba(56, 189, 248, 0.25);
+}
+
+.bio-glow-emerald {
+  box-shadow: 0 0 30px -5px rgba(16, 185, 129, 0.25);
+}
+
+.bio-glow-violet {
+  box-shadow: 0 0 30px -5px rgba(168, 85, 247, 0.25);
+}
+
+.bio-glow-rose {
+  box-shadow: 0 0 30px -5px rgba(244, 63, 94, 0.25);
+}
+
+.bio-glow-amber {
+  box-shadow: 0 0 30px -5px rgba(245, 158, 11, 0.25);
+}
+
+/* Ambient Bioluminescent Background Floating Orbs */
+@keyframes ambientDrift {
+  0% { transform: translate(0px, 0px) scale(1); }
+  33% { transform: translate(30px, -40px) scale(1.08); }
+  66% { transform: translate(-20px, 30px) scale(0.95); }
+  100% { transform: translate(0px, 0px) scale(1); }
+}
+
+.ambient-orb-1 {
+  animation: ambientDrift 18s ease-in-out infinite;
+}
+
+.ambient-orb-2 {
+  animation: ambientDrift 22s ease-in-out infinite reverse;
+}
+
+.ambient-orb-3 {
+  animation: ambientDrift 25s ease-in-out infinite 2s;
+}
+
+/* Neural Waveform Flow */
+@keyframes waveDash {
+  to {
+    stroke-dashoffset: -40;
+  }
+}
+
+.neural-wave {
+  stroke-dasharray: 6 3;
+  animation: waveDash 1.4s linear infinite;
+}
+
+/* Laser Scanline Beam */
+@keyframes scanlineSweep {
+  0% { transform: translateY(-100%); opacity: 0; }
+  50% { opacity: 0.8; }
+  100% { transform: translateY(200%); opacity: 0; }
+}
+
+.scan-beam {
+  animation: scanlineSweep 2.5s ease-in-out infinite;
+}
+
+/* Living Pulse */
+@keyframes organicBreath {
+  0%, 100% { transform: scale(1); opacity: 0.9; }
+  50% { transform: scale(1.04); opacity: 1; }
+}
+
+.animate-breath {
+  animation: organicBreath 4s ease-in-out infinite;
+}
+
+/* Holo Glint */
+@keyframes holoGlint {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.holo-ring {
+  animation: holoGlint 12s linear infinite;
+}

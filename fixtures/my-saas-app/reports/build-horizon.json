@@ -1,0 +1,341 @@
+{
+  "systemName": "my-saas-app",
+  "framework": "Node.js",
+  "createdAt": "2026-10-13T20:33:20.750Z",
+  "updatedAt": "2026-10-13T21:05:39.053Z",
+  "visionStatement": "Ecommerce backend where payments can never mark an order paid without a verified Stripe signature.",
+  "currentHorizonPhase": "Phase 1 · Auth boundary holds",
+  "evidenceBasePointId": null,
+  "activeMilestoneId": "m1-auth",
+  "milestones": [
+    {
+      "id": "m1-auth",
+      "sequence": 1,
+      "title": "Auth boundary holds",
+      "layer": "Security & Access",
+      "description": "Login journey passes against the real session module.",
+      "blocks": [
+        "auth-session"
+      ],
+      "status": "PENDING_REVIEW",
+      "authorReview": null,
+      "verificationCheck": null
+    },
+    {
+      "id": "m2-orders",
+      "sequence": 2,
+      "title": "Order core is correct",
+      "layer": "Business Logic",
+      "description": "Pricing, discounts and lifecycle unit tests plus create/view order journeys pass.",
+      "blocks": [
+        "order-service"
+      ],
+      "status": "PENDING_REVIEW",
+      "authorReview": null,
+      "verificationCheck": null
+    },
+    {
+      "id": "m3-payments",
+      "sequence": 3,
+      "title": "Payments are signature-guarded",
+      "layer": "Payment Ingress",
+      "description": "Webhook rejects unsigned events, persists paid status, and the security scan is clean.",
+      "blocks": [
+        "stripe-webhook"
+      ],
+      "status": "PENDING_REVIEW",
+      "authorReview": null,
+      "verificationCheck": null
+    },
+    {
+      "id": "m4-config",
+      "sequence": 4,
+      "title": "Configuration is covered",
+      "layer": "Configuration",
+      "description": "Environment config has at least one check that exercises it. Currently uncovered on purpose, so this milestone stays open until a test exists.",
+      "blocks": [
+        "config-env"
+      ],
+      "status": "PENDING_REVIEW",
+      "authorReview": null,
+      "verificationCheck": null
+    }
+  ],
+  "groundedTruth": {
+    "provenCapabilities": [
+      "[Dev Mode] 1 block(s) passed on host-fallback; container isolation required for gate seal."
+    ],
+    "currentGaps": [
+      "UNVERIFIED: Environment Config (src/config/env.js) - No check is mapped to this block."
+    ],
+    "futureHorizon": [
+      "Milestone 1: Auth boundary holds (auth-session)",
+      "Milestone 2: Order core is correct (order-service)",
+      "Milestone 3: Payments are signature-guarded (stripe-webhook)",
+      "Milestone 4: Configuration is covered (config-env)"
+    ]
+  },
+  "gateArchitecture": {
+    "systemName": "my-saas-app",
+    "vision": "Ecommerce backend where payments can never mark an order paid without a verified Stripe signature.",
+    "configured": true,
+    "framework": "Node.js",
+    "intakeTimestamp": "2026-10-13T21:05:38.859Z",
+    "gitProvenance": {
+      "commitSha": "fa117cc",
+      "fullSha": "fa117cc2ce20c71008816475cdf51f3ba4e75d85",
+      "branch": "master",
+      "isDirty": true,
+      "modifiedFiles": [
+        "M README.md",
+        "M apps/web/index.html",
+        "M apps/web/package.json",
+        "M apps/web/src/App.jsx",
+        "M apps/web/src/components/AddJourneyModal.jsx",
+        "M apps/web/src/components/CriticalJourneys.jsx",
+        "M apps/web/src/components/ErrorBoundary.jsx",
+        "M apps/web/src/components/Header.jsx",
+        "M apps/web/src/components/LandingPage.jsx",
+        "M apps/web/src/components/LatestChangeHero.jsx",
+        "M apps/web/src/components/LiveCodePlaygroundModal.jsx",
+        "M apps/web/src/components/MetricCards.jsx",
+        "M apps/web/src/components/RecentActivity.jsx",
+        "M apps/web/src/components/RemediationFixModal.jsx",
+        "M apps/web/src/components/RepoSelectorModal.jsx",
+        "M apps/web/src/components/Sidebar.jsx",
+        "M apps/web/src/components/VerityAICopilot.jsx",
+        "M apps/web/src/index.css",
+        "M apps/web/tailwind.config.js",
+        "M apps/web/vite.config.js",
+        "M fixtures/my-saas-app/reports/verity-report.json",
+        "M fixtures/my-saas-app/reports/verity-report.md",
+        "M fixtures/my-saas-app/src/api/webhooks/stripe.js",
+        "M fixtures/my-saas-app/src/services/order.js",
+        "M fixtures/my-saas-app/tests/run-tests.js",
+        "M infra/worker-sandbox/Dockerfile",
+        "M package.json",
+        "M packages/engine/bin/buildgate.js",
+        "M packages/engine/bin/verity.js",
+        "M packages/engine/src/checks/build-check.js",
+        "M packages/engine/src/checks/dependency-check.js",
+        "M packages/engine/src/checks/journey-check.js",
+        "M packages/engine/src/checks/test-check.js",
+        "M packages/engine/src/github/webhook-receiver.js",
+        "M packages/engine/src/index.js",
+        "M packages/engine/src/isolation/sandbox-runner.js",
+        "M packages/engine/src/local/workspace-inspector.js",
+        "M packages/engine/src/remediation/patch-engine.js",
+        "M packages/engine/src/reporter/evidence-store.js",
+        "M services/api/server.js",
+        "M services/github/github-app-manager.js",
+        "?? .env.example",
+        "?? .github/",
+        "?? MARKET_READINESS_FIXES.md",
+        "?? action.yml",
+        "?? apps/web/src/components/BrandLogos.jsx",
+        "?? apps/web/src/components/BuildHorizonView.jsx",
+        "?? apps/web/src/components/BuildvibeAICopilot.jsx",
+        "?? apps/web/src/components/BuildvibeEnvironment.jsx",
+        "?? apps/web/src/components/EvidenceDrawer.jsx",
+        "?? apps/web/src/components/LivingSystemCanvas.jsx",
+        "?? fixtures/my-saas-app/buildgate.json",
+        "?? fixtures/my-saas-app/reports/build-horizon.json",
+        "?? fixtures/my-saas-app/reports/evidence-base.json",
+        "?? fixtures/my-saas-app/reports/evidence-fa117cc.json",
+        "?? fixtures/my-saas-app/reports/evidence-index.json",
+        "?? packages/engine/src/horizon/",
+        "?? packages/engine/src/intake/",
+        "?? packages/engine/test/"
+      ]
+    },
+    "latestEvidence": {
+      "scanId": "#4851",
+      "timestamp": "2026-10-13T19:46:11.726Z",
+      "commitSha": "fa117cc",
+      "executionMode": "host-fallback",
+      "overallStatus": "passed"
+    },
+    "fileCount": 4,
+    "dependenciesCount": 1,
+    "dependencies": [
+      "stripe"
+    ],
+    "scripts": {
+      "test": "node tests/run-tests.js"
+    },
+    "blocks": [
+      {
+        "id": "config-env",
+        "name": "Environment Config",
+        "layer": "Configuration",
+        "paths": [
+          "src/config/env.js"
+        ],
+        "path": "src/config/env.js",
+        "dependencies": [],
+        "verifiedBy": [],
+        "inferred": false,
+        "evidence": [],
+        "state": "UNVERIFIED",
+        "reason": "No check is mapped to this block."
+      },
+      {
+        "id": "auth-session",
+        "name": "Session & Auth",
+        "layer": "Security & Access",
+        "paths": [
+          "src/auth/session.js"
+        ],
+        "path": "src/auth/session.js",
+        "dependencies": [
+          "config-env"
+        ],
+        "verifiedBy": [
+          "journey:User Login"
+        ],
+        "inferred": false,
+        "evidence": [
+          {
+            "selector": "journey:User Login",
+            "result": "passed"
+          }
+        ],
+        "verifiedAt": "2026-10-13T19:46:11.726Z",
+        "verifiedCommit": "fa117cc",
+        "state": "PASSED_UNISOLATED",
+        "reason": "All mapped checks passed, but execution mode was \"host-fallback\". Not gate-grade."
+      },
+      {
+        "id": "order-service",
+        "name": "Order Service",
+        "layer": "Business Logic",
+        "paths": [
+          "src/services/order.js"
+        ],
+        "path": "src/services/order.js",
+        "dependencies": [],
+        "verifiedBy": [
+          "unit:Order Calculation",
+          "unit:Order Lifecycle",
+          "journey:Create Order",
+          "journey:View Orders"
+        ],
+        "inferred": false,
+        "evidence": [
+          {
+            "selector": "unit:Order Calculation",
+            "result": "passed",
+            "detail": "2/2"
+          },
+          {
+            "selector": "unit:Order Lifecycle",
+            "result": "passed",
+            "detail": "1/1"
+          },
+          {
+            "selector": "journey:Create Order",
+            "result": "passed"
+          },
+          {
+            "selector": "journey:View Orders",
+            "result": "passed"
+          }
+        ],
+        "verifiedAt": "2026-10-13T19:46:11.726Z",
+        "verifiedCommit": "fa117cc",
+        "state": "STALE",
+        "reason": "Changed after last verification: src/services/order.js"
+      },
+      {
+        "id": "stripe-webhook",
+        "name": "Stripe Webhook",
+        "layer": "Payment Ingress",
+        "paths": [
+          "src/api/webhooks/stripe.js"
+        ],
+        "path": "src/api/webhooks/stripe.js",
+        "dependencies": [
+          "order-service",
+          "config-env"
+        ],
+        "verifiedBy": [
+          "unit:Webhook Security",
+          "unit:Webhook Handler",
+          "journey:Payment Flow",
+          "security"
+        ],
+        "inferred": false,
+        "evidence": [
+          {
+            "selector": "unit:Webhook Security",
+            "result": "passed",
+            "detail": "1/1"
+          },
+          {
+            "selector": "unit:Webhook Handler",
+            "result": "passed",
+            "detail": "1/1"
+          },
+          {
+            "selector": "journey:Payment Flow",
+            "result": "passed"
+          },
+          {
+            "selector": "security",
+            "result": "passed"
+          }
+        ],
+        "verifiedAt": "2026-10-13T19:46:11.726Z",
+        "verifiedCommit": "fa117cc",
+        "state": "STALE",
+        "reason": "Changed after last verification: src/api/webhooks/stripe.js"
+      }
+    ],
+    "unmappedFiles": [],
+    "milestonesConfig": [
+      {
+        "id": "m1-auth",
+        "title": "Auth boundary holds",
+        "layer": "Security & Access",
+        "description": "Login journey passes against the real session module.",
+        "blocks": [
+          "auth-session"
+        ]
+      },
+      {
+        "id": "m2-orders",
+        "title": "Order core is correct",
+        "layer": "Business Logic",
+        "description": "Pricing, discounts and lifecycle unit tests plus create/view order journeys pass.",
+        "blocks": [
+          "order-service"
+        ]
+      },
+      {
+        "id": "m3-payments",
+        "title": "Payments are signature-guarded",
+        "layer": "Payment Ingress",
+        "description": "Webhook rejects unsigned events, persists paid status, and the security scan is clean.",
+        "blocks": [
+          "stripe-webhook"
+        ]
+      },
+      {
+        "id": "m4-config",
+        "title": "Configuration is covered",
+        "layer": "Configuration",
+        "description": "Environment config has at least one check that exercises it. Currently uncovered on purpose, so this milestone stays open until a test exists.",
+        "blocks": [
+          "config-env"
+        ]
+      }
+    ],
+    "indexedCount": 4,
+    "provenCount": 0,
+    "unisolatedCount": 1,
+    "blockedCount": 0,
+    "staleCount": 2,
+    "unverifiedCount": 1,
+    "missingCount": 0
+  }
+}

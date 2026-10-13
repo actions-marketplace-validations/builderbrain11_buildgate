@@ -1,0 +1,14 @@
+{
+  "name": "@buildgate/engine",
+  "version": "0.1.0",
+  "description": "Deterministic verification and regression engine for AI-built software, powered by legit.run",
+  "main": "src/index.js",
+  "bin": {
+    "buildgate": "bin/buildgate.js",
+    "legit.run": "bin/legit.run.js",
+    "legit": "bin/legit.run.js",
+    "verity": "bin/verity.js"
+  },
+  "keywords": ["buildgate", "legit.run", "verification", "ai", "security", "engine"],
+  "license": "Apache-2.0"
+}

@@ -1,0 +1,12 @@
+{
+  "name": "my-saas-app",
+  "version": "1.0.0",
+  "private": true,
+  "description": "AI-built SaaS application with Stripe billing and Supabase storage",
+  "scripts": {
+    "test": "node tests/run-tests.js"
+  },
+  "dependencies": {
+    "stripe": "^14.0.0"
+  }
+}

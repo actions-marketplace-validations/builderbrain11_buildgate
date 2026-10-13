@@ -1,0 +1,205 @@
+{
+  "scanId": "scan-mv77zc6x",
+  "timestamp": "2026-10-13T21:55:32.202Z",
+  "projectPath": "D:\\Darpan\\fixtures\\my-saas-app",
+  "projectName": "my-saas-app",
+  "totalDurationMs": 368,
+  "executionMode": "not-executed",
+  "mergeEligible": false,
+  "revision": {
+    "commitSha": "61bb991",
+    "fullCommitSha": "61bb9912ec8410f034706c9fa13e7912cf5c2a39",
+    "branch": "main",
+    "isDirty": true,
+    "workerMode": "not-executed",
+    "isolated": false
+  },
+  "changeAnalysis": {
+    "commit": {
+      "sha": "61bb991",
+      "fullSha": "61bb9912ec8410f034706c9fa13e7912cf5c2a39",
+      "branch": "main",
+      "isDirty": true,
+      "author": "buildgate-sentinel",
+      "title": "Modified 3 local file(s)",
+      "timestamp": "2026-10-13T21:55:32.028Z"
+    },
+    "whatChanged": [
+      {
+        "item": "Added /api/webhooks/stripe endpoint",
+        "type": "endpoint",
+        "risk": "high"
+      },
+      {
+        "item": "Updated order status logic",
+        "type": "business_logic",
+        "risk": "high"
+      },
+      {
+        "item": "Modified database schema (orders)",
+        "type": "schema",
+        "risk": "medium"
+      },
+      {
+        "item": "Added Stripe dependency",
+        "type": "dependency",
+        "risk": "low"
+      },
+      {
+        "item": "Changed environment variables",
+        "type": "config",
+        "risk": "medium"
+      }
+    ],
+    "affectedComponents": [
+      {
+        "name": "Stripe Webhook Gateway",
+        "path": "src/api/webhooks/stripe.js",
+        "layer": "API Endpoint"
+      },
+      {
+        "name": "Order Persistence Service",
+        "path": "src/services/order.js",
+        "layer": "Application Logic"
+      },
+      {
+        "name": "Payment Flow Critical Journey",
+        "path": "tests/journeys/payment-flow.journey.js",
+        "layer": "Synthetic Tests"
+      },
+      {
+        "name": "Environment Configuration",
+        "path": "src/config/env.js",
+        "layer": "Secrets & Config"
+      }
+    ],
+    "riskLevel": "High Risk",
+    "riskReason": "Touches financial webhook endpoints, order state transitions, and external third-party payment callbacks.",
+    "isBrokenWebhook": true
+  },
+  "results": [
+    {
+      "id": "check_build_type",
+      "name": "Build & Type Check",
+      "category": "build",
+      "status": "passed",
+      "durationMs": 6,
+      "summary": "Successfully compiled and verified syntax across 20 project files.",
+      "errors": [],
+      "filesCount": 20
+    },
+    {
+      "id": "check_unit_tests",
+      "name": "Unit Tests",
+      "category": "tests",
+      "status": "failed",
+      "durationMs": 164,
+      "summary": "Tests were not executed because isolated worker execution failed. No host fallback was attempted.",
+      "totalTests": 0,
+      "passedCount": 0,
+      "failedCount": 1,
+      "tests": [],
+      "isolatedExecution": false,
+      "isolation": "not-executed",
+      "executionError": "Docker daemon is not running. Please start Docker Desktop or the Docker service. No host execution was attempted."
+    },
+    {
+      "id": "check_critical_journeys",
+      "name": "Critical Journey Tests",
+      "category": "journeys",
+      "status": "failed",
+      "durationMs": 0,
+      "summary": "Critical journeys were not executed because isolated test results were unavailable.",
+      "failingJourneys": [
+        "All journeys unavailable"
+      ],
+      "journeys": [],
+      "isolatedExecution": false,
+      "executionError": "Docker daemon is not running. Please start Docker Desktop or the Docker service. No host execution was attempted."
+    },
+    {
+      "id": "check_security",
+      "name": "Security & Secret Scan",
+      "category": "security",
+      "status": "warning",
+      "durationMs": 3,
+      "summary": "4 security finding(s) detected: 0 critical, 4 medium.",
+      "findings": [
+        {
+          "category": "vulnerability",
+          "severity": "medium",
+          "confidence": "high",
+          "title": "Bypassed Cryptographic Verification in scripts/break.js",
+          "evidence": "Signature/HMAC validation routine returns true unconditionally without validating cryptographic payload",
+          "file": "scripts/break.js",
+          "recommendation": "Restore cryptographic timingSafeEqual HMAC verification to prevent spoofed requests."
+        },
+        {
+          "category": "logic_flaw",
+          "severity": "medium",
+          "confidence": "high",
+          "title": "Unpersisted State Mutation in scripts/break.js",
+          "evidence": "Webhook acknowledges external event without committing database mutation",
+          "file": "scripts/break.js",
+          "recommendation": "Ensure database state transition is committed before returning success response."
+        },
+        {
+          "category": "vulnerability",
+          "severity": "medium",
+          "confidence": "high",
+          "title": "Bypassed Cryptographic Verification in src/api/webhooks/stripe.js",
+          "evidence": "Signature/HMAC validation routine returns true unconditionally without validating cryptographic payload",
+          "file": "src/api/webhooks/stripe.js",
+          "recommendation": "Restore cryptographic timingSafeEqual HMAC verification to prevent spoofed requests."
+        },
+        {
+          "category": "logic_flaw",
+          "severity": "medium",
+          "confidence": "high",
+          "title": "Unpersisted State Mutation in src/api/webhooks/stripe.js",
+          "evidence": "Webhook acknowledges external event without committing database mutation",
+          "file": "src/api/webhooks/stripe.js",
+          "recommendation": "Ensure database state transition is committed before returning success response."
+        }
+      ],
+      "secretStatus": "passed"
+    },
+    {
+      "id": "check_dependency_audit",
+      "name": "Dependency Audit",
+      "category": "dependencies",
+      "status": "warning",
+      "durationMs": 0,
+      "summary": "1 dependency finding(s) detected: package-lock.json",
+      "dependenciesCount": 1,
+      "issues": [
+        {
+          "package": "package-lock.json",
+          "severity": "low",
+          "reason": "Deterministic lockfile is missing. Run npm install to generate package-lock.json."
+        }
+      ]
+    }
+  ],
+  "explanation": {
+    "overallStatus": "attention",
+    "overallHeadline": "Changes need attention",
+    "explanation": "The verification pipeline identified 2 failed check(s). Review the detailed logs below before merging.",
+    "recommendations": [],
+    "failingCount": 2,
+    "warningCount": 2,
+    "passedCount": 1,
+    "totalCount": 5
+  },
+  "attestation": {
+    "version": "1.0",
+    "algorithm": "SHA-256",
+    "sha256Digest": "579ee01dab8e55a9ed3a51b9f60141de79933166ff6fe78e27f20870d1f253c0",
+    "provenance": {
+      "commitSha": "61bb991",
+      "executionMode": "not-executed",
+      "mergeEligible": false,
+      "signedAt": "2026-10-13T21:55:32.202Z"
+    }
+  }
+}
