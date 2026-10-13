@@ -12,6 +12,16 @@ export default function LandingPage({ onLaunchDemo }) {
   const [toolUsed, setToolUsed] = useState('Cursor');
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [activeTab, setActiveTab] = useState('failed');
+  const [heroSimState, setHeroSimState] = useState('clean');
+  const [copiedCmd, setCopiedCmd] = useState(false);
+
+  const handleCopyCmd = () => {
+    try {
+      navigator.clipboard?.writeText('npx legit.run init');
+      setCopiedCmd(true);
+      setTimeout(() => setCopiedCmd(false), 2000);
+    } catch (_) {}
+  };
 
   const handleWaitlistSubmit = (e) => {
     e.preventDefault();
@@ -116,13 +126,28 @@ export default function LandingPage({ onLaunchDemo }) {
               </div>
             </div>
 
+            {/* Quickstart Command Block */}
+            <div className="pt-1">
+              <div 
+                onClick={handleCopyCmd}
+                className="inline-flex items-center gap-3 px-4 py-2.5 rounded-2xl bg-black/60 border border-white/[0.12] hover:border-amber-400/40 font-mono text-xs text-slate-200 cursor-pointer transition shadow-inner group"
+                title="Click to copy quickstart command"
+              >
+                <span className="text-amber-400 font-bold">$</span>
+                <span className="font-semibold text-white">npx legit.run init</span>
+                <span className="text-[10px] text-slate-500 ml-2 group-hover:text-slate-300 transition">
+                  {copiedCmd ? '✅ Copied!' : '📋 Click to copy'}
+                </span>
+              </div>
+            </div>
+
             {/* Hero CTAs */}
-            <div className="flex flex-col sm:flex-row items-center gap-4 pt-3">
+            <div className="flex flex-col sm:flex-row items-center gap-4 pt-1">
               <button
                 onClick={onLaunchDemo}
                 className="w-full sm:w-auto px-8 py-3.5 rounded-full bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-black text-xs font-extrabold transition-all shadow-xl flex items-center justify-center gap-2 active:scale-95"
               >
-                <span>Enter the Gate</span>
+                <span>Enter Control Plane</span>
                 <ArrowRight className="w-4 h-4" />
               </button>
 
@@ -133,45 +158,118 @@ export default function LandingPage({ onLaunchDemo }) {
                 <div className="w-5 h-5 rounded-full border border-white/40 flex items-center justify-center">
                   <Play className="w-2.5 h-2.5 fill-current ml-0.5" />
                 </div>
-                <span>Explore Systems Demo</span>
+                <span>Live Interactive Demo</span>
               </button>
             </div>
           </div>
 
-          {/* Right Column: Towering Gate with Solitary Builder Silhouette */}
-          <div className="lg:col-span-5 relative flex items-center justify-center">
-            {/* Luminous Core Backdrop */}
-            <div className="absolute w-80 h-96 bg-gradient-to-t from-sky-500/25 via-indigo-500/20 to-transparent rounded-full blur-[110px] pointer-events-none"></div>
+          {/* Right Column: Live Interactive Gate Simulator */}
+          <div className="lg:col-span-5 relative">
+            <div className="absolute -inset-2 bg-gradient-to-r from-amber-500/10 via-indigo-500/10 to-sky-500/10 rounded-3xl blur-2xl pointer-events-none"></div>
 
-            {/* Monolithic Gate Visual Simulation */}
-            <div className="w-full max-w-md h-[460px] rounded-[36px] bg-gradient-to-b from-[#101422] to-[#080B0F] border border-white/[0.12] p-6 relative overflow-hidden shadow-2xl flex flex-col items-center justify-center">
-              {/* Starry Nebula Overhead */}
-              <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-indigo-900/25 via-transparent to-transparent pointer-events-none"></div>
+            <div className="relative rounded-3xl bg-[#0D121B] border border-white/[0.12] p-5 shadow-2xl space-y-3.5 font-mono text-xs">
+              {/* Simulator Header */}
+              <div className="flex items-center justify-between pb-3 border-b border-white/[0.06]">
+                <div className="flex items-center gap-2">
+                  <span className="w-2.5 h-2.5 rounded-full bg-rose-500/80"></span>
+                  <span className="w-2.5 h-2.5 rounded-full bg-amber-500/80"></span>
+                  <span className="w-2.5 h-2.5 rounded-full bg-emerald-500/80"></span>
+                  <span className="text-[11px] text-slate-400 ml-1">legit.run v1.0.0</span>
+                </div>
 
-              {/* The Gate Portal Monolith */}
-              <div className="relative flex flex-col items-center justify-center z-10">
-                <BuildgateLogo className="w-44 h-44 drop-shadow-[0_0_40px_rgba(99,134,241,0.7)]" />
-
-                {/* Vertical Luminous Portal Opening */}
-                <div className="absolute w-20 h-36 bg-gradient-to-t from-sky-400/90 via-indigo-200/80 to-transparent blur-md opacity-80 pointer-events-none -mt-4"></div>
-
-                {/* Solitary Human Builder Silhouette */}
-                <div className="relative z-20 mt-6 flex flex-col items-center">
-                  <div className="w-3 h-3 rounded-full bg-slate-900 border border-sky-400/80 shadow-[0_0_8px_#38bdf8]"></div>
-                  <div className="w-2.5 h-7 bg-slate-900 rounded-b"></div>
-                  <div className="w-16 h-2 bg-sky-400/30 rounded-full blur-sm mt-1"></div>
+                <div className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold border flex items-center gap-1.5 transition-colors ${
+                  heroSimState === 'clean' 
+                    ? 'bg-emerald-500/10 text-emerald-300 border-emerald-500/30' 
+                    : 'bg-rose-500/10 text-rose-300 border-rose-500/30'
+                }`}>
+                  <span className={`w-1.5 h-1.5 rounded-full ${heroSimState === 'clean' ? 'bg-emerald-400 animate-pulse' : 'bg-rose-400'}`}></span>
+                  <span>{heroSimState === 'clean' ? 'GATE: APPROVED' : 'GATE: BLOCKED'}</span>
                 </div>
               </div>
 
-              {/* Atmospheric Ground Fog */}
-              <div className="absolute bottom-0 inset-x-0 h-28 bg-gradient-to-t from-[#080B0F] via-[#080B0F]/80 to-transparent z-10 pointer-events-none"></div>
+              {/* Interactive Scenario Toggles */}
+              <div className="grid grid-cols-2 gap-2 text-[11px]">
+                <button
+                  onClick={() => setHeroSimState('clean')}
+                  className={`py-2 px-2.5 rounded-xl border transition flex items-center justify-center gap-1.5 font-bold ${
+                    heroSimState === 'clean'
+                      ? 'bg-emerald-500/15 border-emerald-500/40 text-emerald-300 shadow-sm'
+                      : 'bg-black/30 border-white/[0.06] text-slate-400 hover:text-white'
+                  }`}
+                >
+                  <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
+                  <span>Verified Commit</span>
+                </button>
 
-              <div className="absolute bottom-6 inset-x-6 z-20 flex items-center justify-between text-[11px] font-mono text-slate-400">
-                <span className="flex items-center gap-1.5 text-sky-400 font-bold">
-                  <span className="w-1.5 h-1.5 rounded-full bg-sky-400 animate-ping"></span>
-                  Active Release Gate
-                </span>
-                <span>From Idea to Impact</span>
+                <button
+                  onClick={() => setHeroSimState('regressed')}
+                  className={`py-2 px-2.5 rounded-xl border transition flex items-center justify-center gap-1.5 font-bold ${
+                    heroSimState === 'regressed'
+                      ? 'bg-rose-500/15 border-rose-500/40 text-rose-300 shadow-sm'
+                      : 'bg-black/30 border-white/[0.06] text-slate-400 hover:text-white'
+                  }`}
+                >
+                  <XCircle className="w-3.5 h-3.5 text-rose-400" />
+                  <span>Cursor Hallucination</span>
+                </button>
+              </div>
+
+              {/* Terminal Screen */}
+              <div className="p-3.5 rounded-2xl bg-black/80 border border-white/[0.06] text-[11px] leading-relaxed space-y-1.5 text-slate-300 shadow-inner">
+                <div className="text-slate-500 flex items-center justify-between pb-1 border-b border-white/[0.05]">
+                  <span>$ git push origin main</span>
+                  <span className="text-amber-400/90 font-bold">strict: true</span>
+                </div>
+
+                <div className="text-sky-400 font-semibold flex items-center gap-1.5 pt-1">
+                  <span>🛡️</span>
+                  <span>[legit.run] Running pre-push verification gate...</span>
+                </div>
+
+                {heroSimState === 'clean' ? (
+                  <div className="space-y-1 text-slate-300">
+                    <div className="text-amber-300">🚪 [BUILDGATE] Validating 4 critical flows in container sandbox...</div>
+                    <div className="text-slate-400 pl-2 border-l border-white/10 space-y-0.5">
+                      <div>• User Login: ✅ Passed (2/2)</div>
+                      <div>• Create Order: ✅ Passed (2/2)</div>
+                      <div>• Payment Flow: ✅ Passed (Stripe webhook invariant held)</div>
+                      <div>• View Orders: ✅ Passed (Tenant isolation safe)</div>
+                    </div>
+                    <div className="text-emerald-400 font-bold pt-1">
+                      ✅ GATE APPROVED: Commit verified clean. Push permitted.
+                    </div>
+                  </div>
+                ) : (
+                  <div className="space-y-1 text-slate-300">
+                    <div className="text-rose-400 font-bold">
+                      ❌ [legit.run] Push blocked by Buildgate! Regressions detected.
+                    </div>
+                    <div className="text-rose-300/90 pl-2 border-l border-rose-500/40 space-y-0.5">
+                      <div>• Security: HMAC timingSafeEqual bypass in stripe.js</div>
+                      <div>• Invariant: Order status DB mutation omitted</div>
+                      <div>• Journey Failed: Payment Flow (Step 3: State mutation)</div>
+                    </div>
+                    <div className="text-amber-300 pt-1">
+                      💡 Run 'npx legit.run explain' to review AST diagnostics.
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              {/* Verification Metadata Footer */}
+              <div className="grid grid-cols-3 gap-2 pt-1 text-center text-[10px] text-slate-400">
+                <div className="p-2 rounded-xl bg-white/[0.02] border border-white/[0.05]">
+                  <div className="text-slate-400">Latency</div>
+                  <div className="font-bold text-white mt-0.5">782ms</div>
+                </div>
+                <div className="p-2 rounded-xl bg-white/[0.02] border border-white/[0.05]">
+                  <div className="text-slate-400">False Positives</div>
+                  <div className="font-bold text-emerald-400 mt-0.5">0.0%</div>
+                </div>
+                <div className="p-2 rounded-xl bg-white/[0.02] border border-white/[0.05]">
+                  <div className="text-slate-400">Sandbox</div>
+                  <div className="font-bold text-sky-400 mt-0.5">--network=none</div>
+                </div>
               </div>
             </div>
           </div>
